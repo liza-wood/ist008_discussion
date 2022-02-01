@@ -13,31 +13,6 @@
 # Pushing and pulling with git
 
 
-
-
-
-
-
-
-## Practicing file paths and saving file types
-# ---------------------------------- 
-## 1. Start in your ist008_working folder
-
-## 2. Create the class survey data (paste from reader)
-###(https://ucdavisdatalab.github.io/adventures_in_data_science/working-with-files-and-packages.html)
-
-## 3. Create a folder called data
-
-## 4. Write the csv of the class survey data into the data folder
-
-
-
-# Note: think about how your files are being organized
-
-
-
-
-
 ## Homework with the dogs data
 # ---------------------------------- 
 ## HW Q6. Load the dogs data from the `dogs.rds` file provided in lecture.
