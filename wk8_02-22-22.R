@@ -9,7 +9,7 @@
 
 # What is shape for graphics? Shape is a channel
 # Marks: basic geometries or graphical elements that depict our data items or their linkages -- basically, the geom you use
-# Channel: attributes that control how the marks (geoms) appear -- a DATA-BASED aesthetic. (Hot take from Pamela, and I generally agree: aesthetics that are not data based are *usually* pointless. I think there are some exceptions, like alpha (transparency))
+# Channel: attributes that control how the marks (geoms) appear -- a DATA-BASED aesthetic. They give MEANING to the marks. (Hot take from Pamela, and I generally agree: aesthetics that are not data based are *usually* pointless. I think there are some exceptions, like alpha (transparency))
 
 # Let's play with the plot from Q4
 # you only get 6 shapes by default, says the warning...
