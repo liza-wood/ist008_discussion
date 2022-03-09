@@ -5,7 +5,7 @@
 #
 # HOMEWORK GRADING -- MOST UPDATED GRADES UPLOADED SOON (BY WEDNESDAY)
 #
-# FINAL EXAM:
+# FINAL EXAM MAIN TOPICS:
 # WEB SCRAPING AND STRING PROCESSING
 # VISUALIZATION
 # DATA CLEANING AND DATA TYPES
@@ -63,12 +63,12 @@ paste(poe[2:length(poe)], collapse = " ")
 ## Using sep argument for multiple inputs ("hello" and "world")
 ## These are two separate object that we want to paste together, separated by a space
 paste("Hello", "world", sep = "-")
-## collapse doesn't work here, because collapse
+## collapse doesn't work here
 paste("Hello", "world", collapse = "-")
 ## Inputing one object (indexed_poe), which has 5 elements
-## The collapse argument pastes these elements together
 indexed_poe <- poe[2:length(poe)]
 length(indexed_poe)
+## The collapse argument pastes these elements together
 poe_vec <- paste(indexed_poe, collapse = " ")
 length(poe_vec)
 
@@ -79,34 +79,35 @@ length(poe_vec)
 cat(poe_vec)
 # Big goal: replace the headers with space, or empty non space: ""
 library(stringr)
-## Recommend doing this by replacing or removing
+## Recommend doing this by replacing or removing. The general idea:
 str_replace(poe_vec, PATTERN, "")
 ## Extract can help you identify that you have the right pattern, but it will show you
-## *the thing you extracted*, not the text that remainds from the extraction
+## *the thing you extracted*, not the text that remainds from the extraction. The general idea:
 str_extract(poe_vec, PATTERN)
 
 # What's the pattern?
 ## Example: The Tell-Tale Heart 95 or 94 EDGAR ALLAN POE
-## page number with \\d to represent digit (\d for digit)
-## What about 2 digits?
+## let's focus on how to generalize page number with \\d to represent digit (\d for digit)
+## Also, what about 2 digits?
 
 ## We trialed a few of these, but important things to remember:
 ### Spaces matter in regex pattern; you only get one pattern -- to use the | operator
 ### you have to have it all together in one set of quotes; take a look at the quantifiers
 ### on the cheat sheet to get specific abot numbers; don't let white spaces trick you
 ### you can use \\s? to tell regex "maybe there is a space here, maybe there isn't"
+### Also remember that str_replace will only replace the first instance; str_replace_all
+### is a lot more powerful
 
 ## We got this far in class, but THIS WAS NOT FINISHED 
 poe_clean <- str_replace_all(poe_vec, "\\d{2}\\s?EDGAR ALLAN POE|The Tell-Tale Heart\\s?\\d{2}", replacement = "")
-## We can see that 92 is still there
-poe_clean
-### Are there any digits in there?
+## We can check out the new clean string to see if we got it right...
+### Are there any digits in there? -- YES
 str_detect(poe_clean, "\\d+")
-## Which ones?
+## Which ones? 92 still snuck in
 str_extract(poe_clean, "\\d+")
-### What about EDGAR ALLAN POE 
+### What about EDGAR ALLAN POE ?
 str_detect(poe_clean, "EDGAR ALLAN POE|")
-### You could ask it all at once?
+### What about The Tell-Tale Heart?
 str_detect(poe_clean, "The Tell-Tale Heart")
 str_extract(poe_clean, "The Tell-Tale Heart")
 
@@ -117,13 +118,5 @@ poe_clean
 ## You could use the or symbol and add \\d{2} or you could specify 92, since that is 
 ## the only culprit. There was also a stand alone The Tell-Tale Heart title
 
-# ** so to finish this question make sure you also remove those added parts
-
-
-
-
-
-
-
-
+# ** so to finish this question make sure you also remove those added parts  
 
