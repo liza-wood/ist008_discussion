@@ -27,6 +27,11 @@
 ## Use code to manipulate the date vector so that all of the dates are uniform
 ## Hint: remember the package/date functions we learned, and indexing skills
 
+date <- c("Jan 16 2021", "Apr 21 2021", "Feb 1 2021", "Jun 28 2021", 
+          "2021-03-28", "2021-07-22", "2021-08-08", "2021-09-01",
+          "10-10-2021 11:20:30", "11-01-2021 03:59:01", "05-31-2021 19:22:48", "12-31-2021 23:59:59")
+temp <- c(28, 68, 32, 63, 35, 72, 101, 110, 63, 55, 59, 42)
+
 # 2. Visualization
 ## Once the dates are uniform, plot the temperatures across months with a line graph
 ## Change the x axis ticks so that every month is shown
