@@ -1,4 +1,4 @@
-
+ 
 # -------- WEBSCRAPING AND DATA CLEANING -----------
 
 # Take a look at this record of a melon from the USDA plant repository:
@@ -43,7 +43,10 @@ name <- str_remove(name, " \\(.*\\)")
 date <- dmy(date)
 colnames(table)
 ncol(table)
-table <- table[, 1:6]
+table
+table[1:6,]
+table[1:6] # without conditions, indexing from a df without a comma will default to assume
+# you are wanting to index columns
 
 # -------- # DATES AND VISUALIZATION -----------
 
@@ -59,12 +62,28 @@ temp <- c(28, 68, 32, 63, 35, 72, 101, 110, 63, 55, 59, 42)
 date1 <- mdy(date[1:4])
 date2 <- ymd(date[5:8])
 date3 <- mdy_hms(date[9:12])
-date3 <- as_date(date3)
+class(date1)
+class(date2)
+class(date3)
 
-date <- as_date(c(date1, date2, date3))
-date
-class(date)
-data <- data.frame(date, temp)
+# Three ways to get the vector into a date class:
+# 1. convert just date3
+# date3 <- as_date(date3)
+
+# 2. convert the whole vector
+# dates <- as_date(c(date1, date2, date3)) # no harm in this
+
+# 3. as it turns out, you don't need to force it at all, c() the three date vectors
+# coerces the vector into a Date rather than POSIX
+dates <- c(date1, date2, date3) 
+
+dates
+class(dates)
+
+
+dates
+class(dates)
+data <- data.frame(dates, temp)
 class(data$date)
 
 # 2. Visualization
@@ -91,8 +110,14 @@ data
 
 # 1. Reading an API
 ## Using API from fishwatch, extract the data: "https://www.fishwatch.gov/api/species" 
+library(httr)
+?GET
 response <- GET("https://www.fishwatch.gov/api/species")
+response
 body <- httr::content(response, "text") # be careful! may be masked by another NLP package, can use the :: to tell R, look in the httr package for this
+body
+?content
+?fromJSON
 data <- fromJSON(body)
 
 # 2. Visualization
@@ -106,9 +131,24 @@ View(data)
 
 data$cals <- as.numeric(data$Calories)
 data$fats_g <- as.numeric(str_remove_all(data$`Fat, Total`, " g"))
+data$chol <- as.numeric(str_remove_all(data$Cholesterol, " mg"))
 
-ggplot(data, aes(x = cals, y = fats_g)) +
-  geom_point()
+count_na <- function(column){
+  sum(is.na(column))
+}
+
+count_na(data$cals)
+count_na(data$fats_g)
+
+is.na(data$cals)
+table(is.na(data$cals))
+sum(is.na(data$cals))
+
+sapply(data, count_na)
+
+ggplot(data, aes(x = cals, y = fats_g, color = chol)) +
+  geom_point() +
+  scale_color_viridis_c()
 
 ## B. Make a categorical plot (count up the values with a bar grpah) of the NOAA 
 ## Fisheries Region variable. 
@@ -150,6 +190,20 @@ str_extract(s1, "(@(.+))")
 ## Next, remove the parentheses around the area code
 ## Last, assign these two numbers into a new *vector*, then extract only the last 4 digits
 ## and assign it to a new vector called last_four
+
+str_extract(s2, "[5-9]+") # one or more numbers 5-9, but we still only get the first 2 numbers
+str_extract_all(s2, "[5-9]") # every single number between 5-9
+str_extract_all(s2, "[5,9]") # inside square brackets, you can use ranges (-) or commas (,) to
+# ask for pattern types that are not "exact" to what you are typing
+str_extract_all(s2, "5,9") # without brackets it wants this exact pattern
+
+str_extract_all(s2, "[a-m, 5-9]") # inside square brackets, you can use ranges (-) or commas (,) to
+# ask for pattern types that are not "exact" to what you are typing
+
+str_extract_all(s2, "[call]") # square brackets evaluate one character at a time
+str_extract_all(s2, "call") # without brackets we look at the actual pattern
+str_extract_all(s2, "c|a|l|l") # this is like what's happening in the square brackets
+
 str_match_all(s2, "(\\([0-9]+\\)).([0-9]+.[0-9]+)")
 numbers <- str_extract_all(s2, "(\\([0-9]+\\)).([0-9]+.[0-9]+)")
 numbers <- numbers[[1]]
@@ -159,3 +213,47 @@ str_extract_all(numbers, "[0-9]{4}")
 
 ## s3: Extract the url
 str_extract_all(s3, "http[s]?.//.+?(?=\\s)")
+
+
+# API access: httr, jsonlite
+?content
+??content
+# overcome masking is to call upon the package in particular using ::
+httr::content
+# Webscraping: rvest, xml2
+# visualization: ggplot2
+
+library(httr)
+library(tm)
+?GET
+response <- GET("https://www.fishwatch.gov/api/species")
+response
+body <- content(response, "text") 
+
+# two solutions
+#1. specify package
+body <- httr::content(response, "text") 
+#2. reload package sooner
+library(httr)
+
+body <- content(response, "text") 
+
+# built in datasets in "base R"
+summary(diamonds)
+summary(mtcars)
+
+# example using built in dataset
+ggplot(diamonds, aes(x = cut)) +
+  geom_bar()
+
+
+
+
+
+
+
+
+
+
+
+
