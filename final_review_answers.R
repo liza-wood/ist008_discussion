@@ -1,5 +1,4 @@
- 
-# -------- WEBSCRAPING AND DATA CLEANING -----------
+ # -------- WEBSCRAPING AND DATA CLEANING -----------
 
 # Take a look at this record of a melon from the USDA plant repository:
 # https://npgsweb.ars-grin.gov/gringlobal/accessiondetail?id=1063116
